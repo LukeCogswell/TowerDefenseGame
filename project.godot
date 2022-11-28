@@ -1,0 +1,41 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+[application]
+
+config/name="Tower Defense"
+run/main_scene="res://Scenes/Level.tscn"
+config/icon="res://icon.png"
+
+[debug]
+
+settings/stdout/print_fps=true
+gdscript/warnings/unused_class_variable=true
+shapes/navigation/geometry_color=Color( 0, 0.811765, 0.541176, 0.278431 )
+
+[display]
+
+window/size/width=2560
+window/size/height=1440
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
+
+[gui]
+
+common/drop_mouse_on_gui_input_disabled=true
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+environment/default_clear_color=Color( 0.207843, 0.207843, 0.207843, 1 )
+environment/default_environment="res://default_env.tres"
