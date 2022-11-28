@@ -1,0 +1,68 @@
+extends Spatial
+
+var buildPad
+var targets = []
+var detected = []
+var furthestEnemy = null
+var barrelPos
+var shotCooldown = 2
+
+onready var timer = get_node("Timer")
+onready var anim = get_node("AnimationPlayer")
+onready var towerRange = get_node("Area")
+onready var shot = preload("res://Scenes/BombPathProjectile.tscn")
+onready var visibleRange = preload("res://Scenes/CannonRange.tscn")
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	anim.play("Build")
+	timer.start(shotCooldown)
+	barrelPos = global_translation + Vector3(0,3,0)
+	towerRange.translation = translation
+	var path = Path.new()
+	add_child(path)
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+
+func check_for_enemies():
+	detected = towerRange.get_overlapping_areas()
+	print(detected)
+	var i = 0
+	targets = []
+	while i < detected.size():
+		if detected[i].get_parent().get_parent().get_class() == "PathFollow":
+			if detected[i].get_parent().get_parent().dead == false:
+				targets.append(detected[i])
+				i += 1
+				continue
+			else:
+				i += 1
+				continue
+		else:
+			i += 1
+			continue
+	if targets:
+		return true
+	return false
+
+func shoot_furthest_enemy():
+	var i = 0
+	furthestEnemy = targets[0]
+	while i < targets.size():
+		if is_instance_valid(furthestEnemy):
+			if furthestEnemy.get_parent().get_parent().get_unit_offset() < targets[i].get_parent().get_parent().get_unit_offset():
+				furthestEnemy = targets[i]
+		i += 1
+	var enemyPos = furthestEnemy.get_parent().get_parent().translation
+	anim.play("Shoot")
+	var newShot = shot.instance()
+	get_child(4).curve.clear_points()
+	get_child(4).curve.add_point(Vector3(0, 2, 0), Vector3(0, -1, 0), Vector3(0, 8, 0), 0)
+	get_child(4).curve.add_point(Vector3((enemyPos.x - global_translation.x)/2.1, 0.3, (enemyPos.z - global_translation.z)/2.1), Vector3(0, 7, 0), Vector3(0, -1, 0), 1)
+	get_child(4).add_child(newShot)
+
+func _on_Timer_timeout():
+	if check_for_enemies() and !anim.is_playing():
+		shoot_furthest_enemy()
+	timer.start(shotCooldown)
+		
