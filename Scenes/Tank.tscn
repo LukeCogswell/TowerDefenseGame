@@ -1,0 +1,61 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Assets/HealthBar/HealthBar.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/HealthBarImage.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scripts/HealthBar.gd" type="Script" id=3]
+[ext_resource path="res://Scripts/Tank.gd" type="Script" id=4]
+[ext_resource path="res://Assets/Enemies/Tank.glb" type="PackedScene" id=5]
+
+[sub_resource type="CapsuleShape" id=1]
+radius = 2.68179
+height = 2.31546
+
+[sub_resource type="CapsuleShape" id=2]
+radius = 2.79455
+height = 2.5434
+
+[node name="Tank" type="PathFollow"]
+script = ExtResource( 4 )
+
+[node name="KinematicBody" type="KinematicBody" parent="."]
+
+[node name="Tank" parent="KinematicBody" instance=ExtResource( 5 )]
+
+[node name="Cylinder003" parent="KinematicBody/Tank" index="0"]
+transform = Transform( 0.986992, 0, 0, 0, -1.19209e-07, -0.986992, 0, 1, -1.17659e-07, 0, 4.49474, 0.657696 )
+
+[node name="CollisionShape" type="CollisionShape" parent="KinematicBody"]
+transform = Transform( 1, 0, 0, 0, 1.08375, 0, 0, 0, 1, 0, 2.58757, 0 )
+shape = SubResource( 1 )
+
+[node name="Area" type="Area" parent="KinematicBody"]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape" type="CollisionShape" parent="KinematicBody/Area"]
+transform = Transform( 0.82843, 0, 0, 0, 1.08485, 0, 0, 0, 1, 0, 2.58358, 0 )
+shape = SubResource( 2 )
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform( 2.34027, 0, 0, 0, 2.34027, 0, 0, 0, 2.34027, 0, 5.9543, 0 )
+opacity = 0.5
+pixel_size = 0.0073
+billboard = 1
+double_sided = false
+texture = ExtResource( 1 )
+script = ExtResource( 3 )
+
+[node name="Viewport" type="Viewport" parent="Sprite3D"]
+size = Vector2( 200, 16 )
+hdr = false
+usage = 0
+render_target_v_flip = true
+gui_disable_input = true
+
+[node name="ProgressBar" parent="Sprite3D/Viewport" instance=ExtResource( 2 )]
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+
+[editable path="KinematicBody/Tank"]

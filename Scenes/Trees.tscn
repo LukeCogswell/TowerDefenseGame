@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Assets/Environment/Trees.glb" type="PackedScene" id=1]
+
+[node name="Trees" instance=ExtResource( 1 )]
+
+[node name="Trunk" parent="." index="0"]
+transform = Transform( 2.07308, 0, 0, 0, 2.07308, 0, 0, 0, 2.07308, -2.67776, 0, -0.506879 )
+
+[node name="Trunk001" parent="." index="1"]
+transform = Transform( 2.06451, 0, 0.991537, 0, 2.29028, 0, -0.991537, 0, 2.06451, 8.1729, 0, 7.17541 )
+
+[node name="Trunk003" parent="." index="2"]
+transform = Transform( 0.139736, 0, 0.437602, 0, 0.459371, 0, -0.437602, 0, 0.139736, 1.2673, 0, -2.38414 )
+
+[node name="Trunk004" parent="." index="3"]
+transform = Transform( 2.04409, 0, -0.522593, 0, 2.10984, 0, 0.522593, 0, 2.04409, 7.64336, 0, -6.2307 )
+
+[node name="Trunk002" parent="." index="4"]
+transform = Transform( 2.07308, 0, 0, 0, 2.07308, 0, 0, 0, 2.07308, 19.6677, 0, -0.279743 )
+
+[node name="Trunk005" parent="." index="5"]
+transform = Transform( 2.04409, 0, -0.522593, 0, 2.10984, 0, 0.522593, 0, 2.04409, -14.6769, 0, -5.3707 )
