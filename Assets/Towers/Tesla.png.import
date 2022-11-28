@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/Tesla.png-4d7b7a41fdbdcba56684d7025836ae3f.image"
+
+[deps]
+
+source_file="res://Assets/Towers/Tesla.png"
+dest_files=[ "res://.import/Tesla.png-4d7b7a41fdbdcba56684d7025836ae3f.image" ]
+
+[params]
+
