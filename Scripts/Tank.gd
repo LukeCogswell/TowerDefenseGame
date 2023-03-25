@@ -19,10 +19,10 @@ enum{
 
 var rng = RandomNumberGenerator.new()
 var max_health
-var health = 150
+var health = 200
 var dead = false
-var damage = 3
-var reward = 16
+var damage = 19
+var reward = 8
 var pos
 
 # Called when the node enters the scene tree for the first time.

@@ -7,7 +7,10 @@ var direction = Vector3()
 var target
 var targetNodePath
 var impacted = false
-var dmg = 5
+
+var dmgMin = 3
+var dmgMax = 7
+var dmg
 var dmgType = electric
 
 enum{
@@ -17,7 +20,8 @@ enum{
 onready var timer = get_node("Timer")
 onready var mesh = get_node("MeshInstance")
 
-func ready():
+func _ready():
+	dmg = randi() % (dmgMax - dmgMin) + dmgMin
 	mesh.get_surface_material(0).albedo_color = Color("509ce7")
 	
 

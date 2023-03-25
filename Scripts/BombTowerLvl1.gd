@@ -6,12 +6,14 @@ var detected = []
 var furthestEnemy = null
 var barrelPos
 var shotCooldown = 2
+var towerType = 2
+var towerLevel = 0
 
 onready var timer = get_node("Timer")
 onready var anim = get_node("AnimationPlayer")
 onready var towerRange = get_node("Area")
 onready var shot = preload("res://Scenes/BombPathProjectile.tscn")
-onready var visibleRange = preload("res://Scenes/CannonRange.tscn")
+onready var visibleRange = preload("res://Scenes/BombRange.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -26,7 +28,6 @@ func _ready():
 
 func check_for_enemies():
 	detected = towerRange.get_overlapping_areas()
-	print(detected)
 	var i = 0
 	targets = []
 	while i < detected.size():

@@ -4,7 +4,7 @@ var velocity = Vector3(0,0,0)
 const SPEED = 70
 var speed
 
-onready var cam = get_node("Camera")
+onready var cam = get_node("PerspectiveCamera")
 
 func _ready():
 	pass # Replace with function body.

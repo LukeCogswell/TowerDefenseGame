@@ -6,7 +6,6 @@ var crawlerSpawnTime = 1
 var tankSpawnTime = 10
 var spawning = false
 var wave_length = 10
-var lastWave = 20
 var wave = 0
 var wave_timeout = 5
 var crawlerMinSpawnTime = 0.2
@@ -21,8 +20,7 @@ onready var waveTimeout = get_node("WaveTimeout")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	HUD.lastWave = lastWave
-
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -40,21 +38,27 @@ func _process(delta):
 		add_child(newTank)
 		tanktimer = 0
 
+func _unhandled_input(event):
+	if event is InputEventKey:
+		if event.scancode == KEY_N and event.is_pressed():
+			start_wave()
+
 func start_wave():
+	HUD.startWaveButton.disabled = true
 	spawning = true
 	crawlertimer = 0
 	tanktimer = 0
 	wave += 1
 	waveTimer.start(wave_length)
-	wave_length = (wave + 1) * 5
+	wave_length = (wave + 1) * 4
 	HUD.change_wave(wave)
 
 func _on_WaveLength_timeout():
 	if wave > 3:
-		crawlerSpawnTime = 0.5
+		crawlerSpawnTime = 0.75
 	if wave > 5:
 		tankSpawnTime = 5
-	if wave > 10:
+	if wave > 10 && wave % 3 == 0:
 		crawlerSpawnTime /= 2
 		tankSpawnTime /= 2
 	if crawlerSpawnTime < crawlerMinSpawnTime:
@@ -62,9 +66,8 @@ func _on_WaveLength_timeout():
 	if tankSpawnTime < tankMinSpawnTime:
 		tankSpawnTime = tankMinSpawnTime
 	spawning = false
-	waveTimeout.start(5)
-
+	HUD.startWaveButton.disabled = false
 
 
 func _on_WaveTimeout_timeout():
-	HUD.enable_next_wave_button()
+	pass # Replace with function body.

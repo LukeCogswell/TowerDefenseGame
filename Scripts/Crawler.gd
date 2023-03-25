@@ -1,6 +1,8 @@
 extends PathFollow
 
 export var SPEED = 15
+export var health = 50
+var max_health
 onready var anim = get_node("KinematicBody/Crawler/AnimationPlayer")
 onready var area = get_node("KinematicBody/Area")
 onready var timer = get_node("Timer")
@@ -13,14 +15,12 @@ enum{
 	}
 
 var rng = RandomNumberGenerator.new()
-var max_health
-var health = 50
 var dead = false
 var damage = 1
-var reward = 8
+var reward = 2
 var pos
 var hitdmg
-var physicalResistance = 0
+var physicalResistance = -2
 var electricResistance = 0
 
 # Called when the node enters the scene tree for the first time.

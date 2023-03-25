@@ -13,14 +13,14 @@ height = 1.73987
 [sub_resource type="CapsuleShape" id=29]
 
 [node name="Crawler" type="PathFollow"]
-transform = Transform( -0.143234, 0, 0.989688, 0, 1, 0, -0.989688, 0, -0.143234, -48.9487, 2.86102e-06, 165.828 )
+transform = Transform( -0.143234, 0, 0.989688, 0, 1, 0, -0.989688, 0, -0.143234, 1.16393, 2.86102e-06, 0.118866 )
 loop = false
 script = ExtResource( 2 )
 
 [node name="KinematicBody" type="KinematicBody" parent="."]
 
 [node name="CollisionShape" type="CollisionShape" parent="KinematicBody"]
-transform = Transform( 0.990723, 0, 1.49012e-08, 0, 0.990723, 0, -1.49012e-08, 0, 0.990723, 0, 1.14581, 0 )
+transform = Transform( 0.990723, 0, 2.98023e-08, 0, 0.990723, 0, -2.98023e-08, 0, 0.990723, 0, 1.14581, 0 )
 shape = SubResource( 28 )
 
 [node name="Crawler" parent="KinematicBody" instance=ExtResource( 1 )]
@@ -54,3 +54,5 @@ gui_disable_input = true
 [node name="ProgressBar" parent="Sprite3D/Viewport" instance=ExtResource( 4 )]
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+
+[editable path="KinematicBody/Crawler"]

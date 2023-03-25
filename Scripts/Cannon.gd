@@ -6,6 +6,8 @@ var detected = []
 var furthestEnemy = null
 var barrelPos
 var shotCooldown = 1.2
+var towerLevel = 0
+var towerType = 1
 
 onready var timer = get_node("Timer")
 onready var anim = get_node("AnimationPlayer")

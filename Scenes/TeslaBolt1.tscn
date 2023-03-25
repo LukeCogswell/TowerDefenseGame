@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scripts/TeslaBolt.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/LightningBolt.tscn" type="PackedScene" id=2]
+
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.123531
+height = 0.663974
+
+[node name="Projecticle" type="Area"]
+transform = Transform( -0.0194767, 0, 0.99981, 0, 1, 0, -0.99981, 0, -0.0194767, 0, 0, 0 )
+collision_layer = 2
+collision_mask = 2
+script = ExtResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( -3.55338, 0, 0.148869, 0, 3.5565, 0, -0.148869, 0, -3.55338, 0, 0, 0 )
+shape = SubResource( 1 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.8
+autostart = true
+
+[node name="LightningBolt" parent="." instance=ExtResource( 2 )]
+transform = Transform( 0.54465, 0, -9.31323e-10, 0, 0.54465, 0, 9.31323e-10, 0, 0.54465, 0, 0, 0 )
+
+[node name="Cylinder" parent="LightningBolt" index="0"]
+transform = Transform( -1.79447e-09, -0.201091, -0.145557, -0.145903, 5.22785e-07, 0, 2.60276e-08, 2.9167, -0.0100354, 0, 0, 0 )
+
+[connection signal="area_entered" from="." to="." method="_on_Particle_area_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+
+[editable path="LightningBolt"]

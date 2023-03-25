@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/Towers/TeslaLvl2.glb" type="PackedScene" id=1]
+[ext_resource path="res://Scripts/TeslaLvl2.gd" type="Script" id=2]
+
+[sub_resource type="CylinderShape" id=1]
+height = 12.4493
+radius = 68.0845
+
+[node name="TeslaLvl2" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="Area" type="Area" parent="." index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.01172, 0 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape" type="CollisionShape" parent="Area" index="0"]
+transform = Transform( 0.989278, 0, 0, 0, 0.989278, 0, 0, 0, 0.989278, 0, 3.40333, 0 )
+shape = SubResource( 1 )
+
+[node name="Timer" type="Timer" parent="." index="3"]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

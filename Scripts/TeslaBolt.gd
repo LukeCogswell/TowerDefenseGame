@@ -11,12 +11,17 @@ var direction = Vector3()
 var target
 var targetNodePath
 var impacted = false
-var dmg = 5
+
+var dmgMin = 6
+var dmgMax = 13
+var dmg
+
 var dmgType = electric
 onready var timer = get_node("Timer")
 onready var mesh = get_node("LightningBolt/Cylinder")
 
-func ready():
+func _ready():
+	dmg = randi() % (dmgMax - dmgMin) + dmgMin
 	mesh.get_surface_material(0).albedo_color = Color("509ce7")
 	
 

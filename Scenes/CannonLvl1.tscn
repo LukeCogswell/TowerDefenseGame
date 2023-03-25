@@ -10,6 +10,9 @@ radius = 45.7139
 [node name="CannonLvl1" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
+[node name="Cannon" parent="Base" index="0"]
+transform = Transform( 0.459662, 0, 0, 0, -0.00146835, 0.304818, 0, -0.459657, -0.00221424, 0, 0, 0.0198047 )
+
 [node name="Area" type="Area" parent="." index="2"]
 collision_layer = 2
 collision_mask = 2

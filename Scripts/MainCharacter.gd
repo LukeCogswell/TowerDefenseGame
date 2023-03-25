@@ -36,9 +36,10 @@ func _ready():
 
 func _process(_delta):
 	if buildMode == false:
-		if LMouseButtonIsPressed and !anim.is_playing() and check_for_enemies():
-			shoot_furthest_enemy()
-			destination = character.translation
+		if !anim.is_playing() and check_for_enemies():
+			if character.translation == destination:
+				shoot_furthest_enemy()
+				destination = character.translation
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton:
@@ -195,3 +196,19 @@ func remove():
 			TowerRanges.get_child(0).queue_free()
 		if pad_has_tower(buildPad):
 			buildPad.get_child(2).queue_free()
+			
+func upgrade():
+	if buildPad:
+		if pad_has_tower(buildPad):
+			var previousTowerSelected = hud.get_selected_tower()
+			var existingTower = buildPad.get_child(2)
+			var type = existingTower.towerType
+			var level = existingTower.towerLevel + 1
+			if level <= 1:
+				hud.change_selected_tower(hud.towerLevels[level][type], hud.towerLevelCosts[level][type], hud.towerRangeLevels[level][type])
+				if hud.use_money(hud.towerLevelCosts[level][type]):
+					existingTower.queue_free()
+					build_tower_on_pad(buildPad)
+				hud.change_selected_tower(previousTowerSelected[0], previousTowerSelected[1], previousTowerSelected[2])
+			else:
+				hud.display_error_message("Tower is at Max Level!")

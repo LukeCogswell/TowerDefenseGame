@@ -10,13 +10,12 @@ config_version=4
 
 [application]
 
-config/name="Tower Defense"
+config/name="RoboTD"
 run/main_scene="res://Scenes/Level.tscn"
 config/icon="res://icon.png"
 
 [debug]
 
-settings/stdout/print_fps=true
 gdscript/warnings/unused_class_variable=true
 shapes/navigation/geometry_color=Color( 0, 0.811765, 0.541176, 0.278431 )
 
@@ -24,6 +23,7 @@ shapes/navigation/geometry_color=Color( 0, 0.811765, 0.541176, 0.278431 )
 
 window/size/width=2560
 window/size/height=1440
+window/size/fullscreen=true
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 

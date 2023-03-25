@@ -8,8 +8,12 @@ enum{
 
 var dead = true
 var impacted = false
-var dmg = 15
+
+var dmgMin = 5
+var dmgMax = 11
+var dmg
 var dmgType = physical
+
 var exploded = false
 var targets = []
 var detected = []
@@ -18,6 +22,9 @@ onready var bombPath = get_parent()
 onready var projectileArea = get_node("Bomb/Area")
 onready var explosionArea = get_node("Bomb/MeshInstance")
 onready var timer = get_node("Timer")
+
+func _ready():
+	dmg = randi() % (dmgMax - dmgMin) + dmgMin
 
 func _process(delta):
 	if !impacted:

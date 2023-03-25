@@ -11,12 +11,16 @@ var direction = Vector3()
 var target
 var targetNodePath
 var impacted = false
-var dmg = 10
+
+var dmg
+var dmgMin = 14
+var dmgMax = 26
 var dmgType = physical
 onready var timer = get_node("Timer")
 onready var mesh = get_node("MeshInstance2")
 
-	
+func _ready():
+	dmg = randi() % (dmgMax - dmgMin) + dmgMin
 
 func _physics_process(delta):
 	if !impacted:

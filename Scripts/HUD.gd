@@ -1,7 +1,7 @@
 extends Control
 
 var startingLives = 20
-var startingMoney = 400
+var startingMoney = 260
 var lives = startingLives
 var coins = startingMoney
 
@@ -10,21 +10,33 @@ var selectedTower = null
 var towerRange = null
 var towerCost = null
 
-var lastWave = 20
 
 var Cannon = preload("res://Scenes/CannonLvl1.tscn")
+var Cannon2 = preload("res://Scenes/CannonLvl2.tscn")
 var cannonRange = preload("res://Scenes/CannonRange.tscn")
+var cannonRange2 = preload("res://Scenes/CannonRange2.tscn")
 var cannonPNG = load("res://Textures/CannonIcon.tres")
 var Tesla = preload("res://Scenes/TeslaLvl1.tscn")
 var teslaRange = preload("res://Scenes/TeslaRange.tscn")
 var teslaPNG = load("res://Textures/TeslaIcon.tres")
+var Tesla2 = preload("res://Scenes/TeslaLvl2.tscn")
+var teslaRange2 = preload("res://Scenes/TeslaRange2.tscn")
 var Bomb = preload("res://Scenes/BombTowerLvl1.tscn")
+var Bomb2 = preload("res://Scenes/BombTowerLvl2.tscn")
 var bombRange = preload("res://Scenes/BombRange.tscn")
+var bombRange2 = preload("res://Scenes/BombRange2.tscn")
 var bombPNG = load("res://Textures/BombIcon.tres")
 
-var towers = [Tesla, Cannon, Bomb]
-var towerCosts = [70, 90, 130]
-var towerRanges = [teslaRange, cannonRange, bombRange]
+var towers0 = [Tesla, Cannon, Bomb]
+var towers1 = [Tesla2, Cannon2, Bomb2]
+var towerLevels = [towers0, towers1]
+var towerCosts0 = [70, 90, 130]
+var towerCosts1 = [110, 125, 185]
+var towerLevelCosts = [towerCosts0, towerCosts1]
+var towerRanges0 = [teslaRange, cannonRange, bombRange]
+var towerRanges1 = [teslaRange2, cannonRange2, bombRange2]
+var towerRangeLevels = [towerRanges0, towerRanges1]
+var fading = false
 
 onready var hudLives = get_node("Health")
 onready var hudCoins = get_node("Coins")
@@ -35,6 +47,11 @@ onready var BuildOptions = get_node("BuildOptions")
 onready var Spawner = get_parent().get_node("Path")
 onready var startWaveButton = get_node("StartWave")
 onready var waveNumber = get_node("Wave")
+onready var errors = get_node("Errors")
+onready var errorTimer = get_node("ErrorTimer")
+onready var errorFade = get_node("ErrorFade")
+onready var PerspectiveCamera = get_parent().get_node("CameraTracker/PerspectiveCamera")
+onready var TopDownCamera = get_parent().get_node("CameraTracker/TopDownCamera")
 
 
 
@@ -51,9 +68,17 @@ func _ready():
 	mainChar.towerCost = towerCost
 	mainChar.towerRange = towerRange
 	hudCoins.text = "$" +  str(coins)
-	waveNumber.text = "Wave 0/" + str(lastWave)
+	waveNumber.text = "Wave 0"
+
+func _process(_delta):
+	if fading:
+		if errors.percent_visible > 0.01:
+			errors.percent_visible -= 0.02
 
 func _unhandled_input(event):
+	if event is InputEventMouseButton:
+		if event.button_index == BUTTON_MIDDLE and event.is_pressed():
+			_on_ChangeView_pressed()
 	if event is InputEventKey:
 		if event.scancode == KEY_ESCAPE and event.is_pressed():
 			get_tree().quit()
@@ -66,6 +91,7 @@ func toggle_build_mode():
 func use_money(money):
 	if coins - money < 0:
 		hudCoins.text = "$" +  str(coins)
+		display_error_message("Not Enough Funds!")
 		return false
 	else:
 		coins -= money
@@ -98,10 +124,9 @@ func change_selected_tower(tower, cost, rangeArea):
 	mainChar.towerRange = towerRange
 	mainChar.show_tower_range()
 	
+func get_selected_tower():
+	return [selectedTower, towerCost, towerRange]
 
-func enable_next_wave_button():
-	startWaveButton.disabled = false
-	
 	
 func _on_PauseButton_toggled(_button_pressed):
 	if pauseButton.pressed:
@@ -111,15 +136,11 @@ func _on_PauseButton_toggled(_button_pressed):
 
 
 func _on_BuildOptions_item_selected(index):
-	change_selected_tower(towers[index], towerCosts[index], towerRanges[index])
+	change_selected_tower(towers0[index], towerCosts0[index], towerRanges0[index])
 	
 
-func _on_StartWave_pressed():
-	startWaveButton.disabled = true
-	Spawner.start_wave()	
-
 func change_wave(wave):
-	waveNumber.text = "Wave "+ str(wave) +"/"+str(lastWave)
+	waveNumber.text = "Wave "+ str(wave)
 
 func _on_BuildRemove_pressed():
 	mainChar.build()
@@ -127,3 +148,34 @@ func _on_BuildRemove_pressed():
 
 func _on_Remove_pressed():
 	mainChar.remove()
+
+
+func _on_Upgrade_pressed():
+	mainChar.upgrade()
+
+func display_error_message(error):
+	errors.text = error
+	errors.percent_visible = 1
+	errorTimer.start(3)
+	fading = false
+
+func _on_ErrorTimer_timeout():
+	errorFade.start(4)
+	fading = true
+
+
+func _on_ErrorFade_timeout():
+	errors.text = ""
+	fading = false
+
+func _on_StartWave_button_up():
+	Spawner.start_wave()
+
+
+func _on_ChangeView_pressed():
+	if PerspectiveCamera.is_current() == false:
+		TopDownCamera.clear_current()
+		PerspectiveCamera.make_current()
+	else:
+		PerspectiveCamera.clear_current()
+		TopDownCamera.make_current()
